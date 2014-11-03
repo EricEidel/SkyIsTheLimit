@@ -6,7 +6,5 @@ applications:
   host: SkyIsTheLimit
   name: SkyIsTheLimit
   command: node app.js
-  services:
-    - SQL Database
   instances: 1
   framework: node

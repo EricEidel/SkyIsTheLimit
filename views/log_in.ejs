@@ -1,12 +1,36 @@
 <!DOCTYPE html>
+<html>
 <head>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<title>Sky's The Limit - Giving tech to those in need!</title>
 </head>
 <body>
-	<form name="input" action="/log_in" method="post">
-		User name: <input type="text" name="username"><br/>
-		Password: <input type="password" name="password"><br/>
-	<input type="submit" value="Submit">
-</form> 
+	<div class="container theme-showcase" role="main">
+		<div class="jumbotron">
+			<img src="/images/skyslimit_logo.jpg" alt="Sky's The Limit Logo">
+			<h1>Welcome!</h1>
+			
+			<p>Thank you for your interest in Sky’s the Limit Youth Organization (STL)! </p>
+			<p>STL provides portable computers to the youth who need them. STL provides services to all under-resourced youth regardless of race, gender, religious belief or sexual orientation. </p>
+		</div>
+		<form>
+			<table>
+				<tr>
+					<th>Login</th>
+					<td><input type="text" name="username" id="username"/></td>
+				</tr>
+				<tr>
+					<th>Password</th>
+					<td><input type="password" name="password" id="password"/></td>
+				</tr>
+				<tr>
+					<td colspan="2"><a href="views/form.ejs">Create account</a></td>
+				</tr>
+				<tr>
+					<td colspan="2"><input type="submit" value="Submit"></td>
+				</tr>
+			</table>
+		</form>
+	</div>
 </body>
-
 </html>
