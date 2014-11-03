@@ -3,10 +3,10 @@ applications:
 - memory: 64MB
   path: .
   runtime: node08
-  host: NodeJS_Simple_3_eric_123
-  name: NodeJS_Simple_3
+  host: SkyIsTheLimit
+  name: SkyIsTheLimit
   command: node app.js
   services:
-    - SQL Database-w8
+    - SQL Database
   instances: 1
   framework: node
