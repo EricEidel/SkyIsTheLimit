@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html ng-app>
+  <head>
+    <title>The table</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Eric's web site</h1>
+	<a href="/">Back to home page.</a>
+	<br/>
+    <p>This is the new table:</p>
+	
+	<table border=\"1\">
+	<tr>
+		<th>GID></th><th>CREATOR</th><th>NUMBER_OF_SEATS</th><th>FROM</th><th>TO</th><th>FREQUENCY</th><th>TIME</th>
+	</tr>
+	
+	<% for(var i=0; i<table.length; i++)  {%>
+	<tr>
+		<% for(var j=0; j<table[i].length; j++) { %>
+			<td><%= table[i][j] %></td>
+		<% } %>
+	</tr>
+	<% } %>
+  </body>
+</html>
+

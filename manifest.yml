@@ -1,0 +1,12 @@
+---
+applications:
+- memory: 64MB
+  path: .
+  runtime: node08
+  host: NodeJS_Simple_3_eric_123
+  name: NodeJS_Simple_3
+  command: node app.js
+  services:
+    - SQL Database-w8
+  instances: 1
+  framework: node

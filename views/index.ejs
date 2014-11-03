@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<head>
+</head>
+<body>
+	<h1>Welcome to the form and database example!</h1>
+	
+	<!-- Only do this if the username is not empty. -->
+	<% if (username != "") { %>
+		<p>Welcome <%= username %> ! </p>
+	<% } %>
+	
+	<!-- Only do this once the user is logged in. -->
+	<% if (!user_logged_in) { %>
+		<a href="/log_in">Please log in.</a><br/>
+	<% } else { %>
+		<a href="/form">Use this form to populate the database.</a><br/>
+		<a href="/show_table">Use this link to query the database and show the table.</a><br/>
+		<a href="/log_out">Log out.</a>		
+	<% } %>
+</form> 
+</body>
+
+</html>
