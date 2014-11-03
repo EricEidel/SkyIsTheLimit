@@ -12,6 +12,7 @@
     "ibm_db" : ">=0.0.1",
     "cookie-parser" : "*",
     "express-session" : "*",
-    "body-parser" : "*"    
+    "body-parser" : "*",
+    "sendgrid": "1.1.1"
   }
 }
