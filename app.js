@@ -406,11 +406,11 @@ app.post('/post_upd_appl_review', function(req, res)
 
 app.get('/status', function(req, res)
 {
-	var table = JSON.parse('[{"organization":"ibm", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
+	//var table = JSON.parse('[{"organization":"ibm", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
 
 	var user_id = req.body.user_id;
 	
-	var table = [];
+	var table = '';
 
 	ibmdb.open(dsnString, function(err, conn)
 	{
@@ -421,9 +421,9 @@ app.get('/status', function(req, res)
 		 } 
 		 else 
 		 {
-			var SelectStatement = "select amount, no_computers, extra_info, status, time_submitted from SKY.APPLICATIONS " +
+			var SelectStatement = "select organization, app_id, status, from SKY.APPLICATIONS " +
 				"where user_id = " + user_id;
-			res.write("Query: " + SelectStatement)
+			res.write("Query: " + SelectStatement);
 		    
 			conn.query(InsertStatement, function (err,data) 
 			{
@@ -435,6 +435,17 @@ app.get('/status', function(req, res)
 				} 
 				else
 				{
+					info += '[';
+	                for (var i=0;i<data.length;i++) 
+	                {
+	                	if (i > 0)
+	                		info += ',';
+	                  	info += '{"organization":"' + data[i].ORG_NAME + '", ' +
+	                  		'"id":' + data[i].APP_ID + ', ' +
+	                  		'"status":' + data[i].STATUS + '}';
+	                 }
+		             info += ']';
+					
 	                  for (var i=0;i<data.length;i++) 
 	                  {
 	                  	var row = [];
@@ -454,12 +465,69 @@ app.get('/status', function(req, res)
 		 }		
  	});
 	
-	res.render('index_org', {table:table});
+	var tablejson = JSON.parse(table);
+	res.render('index_org', {table:tablejson});
+});
+
+app.post('/get_org_app', function(req,res)
+{
+	var user_id = req.body.id;
+	
+	var info = '';
+
+	ibmdb.open(dsnString, function(err, conn)
+	{
+		 if (err) 
+		 {
+			res.write("error: ", err.message + "<br>\n");
+			res.end();
+		 } 
+		 else 
+		 {
+			var SelectStatement = "select org_name, amount, no_computers, extra_info, status, time_submitted " +
+				"from SKY.APPLICATIONS, SKY.ORGANIZATION " +
+				"where user_id = " + user_id +
+				"  and SKY.APPLICATIONS.user_id = SKY.ORGANIZATION.user_id";
+			res.write("Query: " + SelectStatement);
+		    
+			conn.query(InsertStatement, function (err,data) 
+			{
+				if (err) 
+				{
+					  res.write("SQL Error: " + err + "<br>\n");
+					  conn.close();
+					  res.end();
+				} 
+				else
+				{
+					info += '[';
+	                for (var i=0;i<data.length;i++) 
+	                {
+	                	if (i > 0)
+	                		info += ',';
+	                  	info += '{"organization":"' + data[i].ORG_NAME + '", ' +
+	                  		'"amount":"' + data[i].AMOUNT + '", ' +
+	                  		'"no_computers":"' + data[i].NO_COMPUTERS + '", ' +
+	                  		'"extra_info":"' + data[i].EXTRA_INFO + '", ' +
+	                  		'"status":' + data[i].STATUS + '}';
+	                 }
+		             info += ']';
+					 conn.close();
+					 res.write(info);
+					 res.end();
+					 //res.render('show_table', {table: table});
+				}
+			 });
+		 }		
+ 	});
 });
 
 app.get('/view_app', function(req, res)
 {
-	var info = JSON.parse('{"amount":"14", "no_computers":"badstuff", "extra_info":"", "status":1}');
+	var info = JSON.parse(req.body.info);
+	//var info = JSON.parse('{"organization":"ibm", "amount":"14", "no_computers":"badstuff", "extra_info":"", "status":1}');
+	
+	
 	
 	res.render('view_application', {info:info});
 });
