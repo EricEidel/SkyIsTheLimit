@@ -407,6 +407,7 @@ app.get('/status', function(req, res)
 	var table = JSON.parse('[{"organization":"ibm", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
 	
 	res.render('index_org', {table:table});
+<<<<<<< HEAD
 });
 
 app.get('/myAppStatus', function(req, res)
@@ -414,6 +415,8 @@ app.get('/myAppStatus', function(req, res)
 	var table2 = JSON.parse('[{"Owner":"Alice", "id":4, "status":2}, {"Owner":"Alice", "id":5, "status":2}, {"Owner":"Alice", "id":6, "status":2}]');
 	
 	res.render('ViewAppTab', {table2:table2});
+=======
+>>>>>>> b72666c846c48e7a3258e0244ab8769e63baeed5
 });
 
 
