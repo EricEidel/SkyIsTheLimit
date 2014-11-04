@@ -168,7 +168,7 @@ app.get('/test_address', function(req, res)
 	
 	try
 	{
-		client.get(url + "?address=66%20Sciberras%20Rd.&city=Markham&stateProvince=ON&country=Canada&fallbackToPostal=Y&fallbackToStreet=Y&fallbackToGeographic=Y&closeMatchesOnly=Y&appId=" + appId, function(data, res) {
+		client.get(url + "?address=66%20Sciberras%20Rd.&city=Markham&stateProvince=ON&country=Canada&fallbackToPostal=Y&fallbackToStreet=Y&fallbackToGeographic=Y&closeMatchesOnly=Y&appId=" + appId, function(data, res2) {
 			res.write("httpCode: " + data.httpCode);
 			if (data.httpCode !== "500")
 			{
@@ -319,6 +319,8 @@ app.post('/activate', function(req, res)
 		
 });
 
+
+
 app.get('/get_form_appl', function(req, res)
 {
 	res.render('request_application');
@@ -369,6 +371,52 @@ app.post('/post_upd_appl_review', function(req, res)
 app.get('/status', function(req, res)
 {
 	var table = JSON.parse('[{"organization":"ibm", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
+
+	var user_id = req.body.user_id;
+	
+	var table = [];
+
+	ibmdb.open(dsnString, function(err, conn)
+	{
+		 if (err) 
+		 {
+			res.write("error: ", err.message + "<br>\n");
+			res.end();
+		 } 
+		 else 
+		 {
+			var SelectStatement = "select amount, no_computers, extra_info, status, time_submitted from SKY.APPLICATIONS " +
+				"where user_id = " + user_id;
+			res.write("Query: " + SelectStatement)
+		    
+			conn.query(InsertStatement, function (err,data) 
+			{
+				if (err) 
+				{
+					  res.write("SQL Error: " + err + "<br>\n");
+					  conn.close();
+					  res.end();
+				} 
+				else
+				{
+	                  for (var i=0;i<data.length;i++) 
+	                  {
+	                  	var row = [];
+	                  	row.push(data[i].AMOUNT)
+	                  	row.push(data[i].NO_COMPUTERS);
+	                  	row.push(data[i].EXTRA_INFO);
+	                  	row.push(data[i].STATUS);
+	                  	row.push(data[i].TIME_SUBMITTED);
+	                  	
+	                  	table.push(row);
+	                  }
+		                  
+					 conn.close();
+					 res.render('show_table', {table: table});
+				}
+			 });
+		 }		
+ 	});
 	
 	res.render('ViewAppTab', {table:table});
 });
@@ -378,6 +426,55 @@ app.post('/post_add_feedback', function(req, res)
 {
 	
 });
+
+app.get('/show_my_app', is_logged_in, function(req, res)
+{
+	var user_id = req.body.user_id;
+	
+	var table = [];
+
+	ibmdb.open(dsnString, function(err, conn)
+	{
+		 if (err) 
+		 {
+			res.write("error: ", err.message + "<br>\n");
+			res.end();
+		 } 
+		 else 
+		 {
+			var SelectStatement = "select amount, no_computers, extra_info, status, time_submitted from SKY.APPLICATIONS " +
+				"where user_id = " + user_id;
+			res.write("Query: " + SelectStatement)
+		    
+			conn.query(InsertStatement, function (err,data) 
+			{
+				if (err) 
+				{
+					  res.write("SQL Error: " + err + "<br>\n");
+					  conn.close();
+					  res.end();
+				} 
+				else
+				{
+	                  for (var i=0;i<data.length;i++) 
+	                  {
+	                  	var row = [];
+	                  	row.push(data[i].AMOUNT)
+	                  	row.push(data[i].NO_COMPUTERS);
+	                  	row.push(data[i].EXTRA_INFO);
+	                  	row.push(data[i].STATUS);
+	                  	row.push(data[i].TIME_SUBMITTED);
+	                  	
+	                  	table.push(row);
+	                  }
+		                  
+					 conn.close();
+					 res.render('show_table', {table: table});
+				}
+			 });
+		 }		
+ 	});
+ });
 
 /**
  * This is where the server is created and run.  Everything previous to this
