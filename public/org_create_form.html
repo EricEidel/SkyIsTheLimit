@@ -32,11 +32,24 @@
 				<input type="text" name="org_website"><br>
 
 				Password:</br>
-				<input type="password" name="password"></br>
-
+				<input type="password" name="password id="password"></br>
+				<%	var FirstPassword= myDoc.getElementsById["password"].value;%>
+				
+				
 				Verify your Password:</br>
-				<input type="password" name="verify_password"></br>
-
+				<input type="password" name="verify_password" id="verify_password"></br>
+				<%	var VerifyPassword= myDoc.getElementsById["verify_password"].value;
+					if(FirstPassword == VerifyPassword)
+					{
+						console.log("Passwords the same!");
+					}
+					else
+					{
+						console.log("Passwords don't match!");
+					}
+				%>
+				
+				
 				<h3><b>Organization Description:</b></h3>
 
 				Mission Statement:</br>
