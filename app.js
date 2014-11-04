@@ -109,49 +109,20 @@ app.get('/log_in', function(req,res)
 	}
 });
 
-/*
+
 app.get('/send_email', function(req,res)
 {
-	var from_address = "stefanb@ca.ibm.com";
-	var to_address = "stefanb@ca.ibm.com";
+	var from_address = "eidelber@ca.ibm.com";
+	var to_address = "eidelber@ca.ibm.com";
 	
 	var subject = "Hello!";
-	var text_body = "Hello,\n\n You smell bad. Please shower. \n\nLove,\n\n your friends at IBM.";
+	var text_body = "Hello.";
 	
 	// HTML BODY
-	var html_body = "<p>Note to myself: I need to shower soon, starting to smell bad...</p>";
-	send_email(to_address, from_address, subject, text_body, html_body);	
+	var html_body = "<p>Note to myself.</p>";
+	var emails = require('./routes/emails');
+	emails.send_email(to_address, from_address, subject, text_body, html_body);	
 });
-*/
-
-function send_email(to_address, from_address, subject, text_body, html_body)
-{
-	var api_user = "rmGV3aNaMN";
-	var api_key = "5F7C81eo17";
-	var sendgrid  = require('sendgrid')(api_user, api_key, {api: 'smtp'});
-	
-	try 
-	{
-		sendgrid.send({
-	        to:         to_address,
-	        from:       from_address,
-	        subject:    subject,
-	        text:       text_body,
-	        html:       html_body
-	    }, function(err, json) {
-	        if (err) {
-	        	res.write("Error:");
-	        	res.write(err);
-	        }
-	        res.write("json:");
-	    	res.write(json);
-	    });
-	} 
-	catch(e) 
-	{
-	    res.write("Error:" + e);
-	}
-}
 
 app.post('/log_in', function(req,res)
 {
@@ -172,45 +143,32 @@ app.get('/form', is_logged_in, function(req, res)
 	res.render('form');
 });
 
-app.post('/post_form_appl', is_logged_in, function(req, res)
+app.get('/get_form_appl', function(req, res)
+{
+	res.render('request_application');
+});
+
+app.post('/post_form_appl', function(req, res)
 {
 	var amount = req.body.amount;
 	var no_computers = req.body.no_computers;
 	var extra_info = req.body.extra_info;
 	var status = 0;
+	var user_id = 1;
 	var worked_by = "NULL";
 	var time_submitted = "CURRENT TIMESTAMP";
-
-	ibmdb.open(dsnString, function(err, conn) 
-	{
-		 if (err) 
-		 {
-			res.write("error: ", err.message + "<br>\n");
-			res.end();
-		 } 
-		 else 
-		 {
-		 	var InsertStatement = "insert into SKY.APPLICATIONS " +
+	
+	var InsertStatement = "insert into SKY.APPLICATIONS " +
 		 		"( user_id, amount, no_computers, extra_info, status, worked_by_id, time_submitted ) values ( " +
-		 		session.user_id + ",'" + amount + "','" + no_computers + "','" + extra_info + "'," + status + "," +
+		 		user_id + ",'" + amount + "','" + no_computers + "','" + extra_info + "'," + status + "," +
 		 		worked_by + "," + time_submitted + " )";
 		 	
-			conn.query(InsertStatement, function (err,tables,moreResultSets) 
-			{
-				if (err) 
-				{
-					  res.write("SQL Error: " + err + "<br>\n");
-					  conn.close();
-					  res.end();
-				} 
-				else
-				{
-					 conn.close();
-					 res.redirect('/show_table');
-				}
-			 });
-		 }		
- 	});
+ 	res.write(InsertStatement);
+		 	
+	var database = require('./routes/database');
+	var tables = database.send_query(ibmdb, dsnString, InsertStatement);
+	res.write("<br/>" + tables);
+	res.end();
 });
  
 app.get('/show_table', is_logged_in, function(req, res)
