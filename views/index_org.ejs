@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<title>Sky's The Limit - Giving tech to those in need!</title>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<script type="text/javascript">
+		var tabs = ["review-app","new-app","edit-prof"];
+		
+		function newtab(id) 
+		{
+			console.log("Activating tab: " + id);
+			for (thing2 in tabs) 
+			{
+				var unactive_tab = tabs[thing2];
+				
+				var tab = document.getElementById(unactive_tab);
+				var tabContent = document.getElementById(unactive_tab + "-tab");
+				
+				if (unactive_tab == id) {
+					tab.className = "active";
+					tabContent.style = "display:block";
+				}
+				else {
+					tab.className = "";
+					tabContent.style = "display:none";
+				}
+			}
+			return false;
+		};
+		
+        // Wait for the page to load first
+        window.onload = function() 
+		{
+			for (thing in tabs) 
+			{
+				var active_tab = tabs[thing];
+				document.getElementById(active_tab).onclick = function() { newtab(this.getAttribute("id")); };
+			}
+        };
+    </script>
+</head>
+<body>
+	<div class="container theme-showcase" role="main">
+		<div class="jumbotron">
+			<nav class="navbar navbar-default">
+				<div class="container">
+					<div class="navbar-header">
+						<div class="navbar-brand">$Username</div>
+					</div>
+					<div class="navbar-collapse collapse">
+						<ul class="nav navbar-nav">
+							<li id="review-app" class="active"><a href="#">Review Applications</a></li>
+							<li id="new-app"><a href="#">Create New Application</a></li>
+							<li id="edit-prof"><a href="#">Edit Profile Info</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<div id="review-app-tab" style="display:block">
+				<h3>Review Applications</h3>
+			</div>
+			<div id="new-app-tab" style="display:none">
+				<form method="post" action="/post_form_appl">
+					<h3>Create New Application</h3>
+					Specific requested amount:</br>
+					<input type="text" name="amount"><br>
+					
+					What would happen if you did not receive the computers from STL?</br>
+					<input type="text" name="no_computers"><br>
+					
+					(Optional) Please provide any information that could strengthen your application that may not have been covered above.</br>
+					<input type="text" name="extra_info"><br></br>
+					<p><button type="submit" class="btn btn-sm btn-info">Submit</button></p>
+						
+				</form>
+			</div>
+			<div id="edit-prof-tab" style="display:none">
+				<h3>Edit Profile Info</h3>
+				
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
