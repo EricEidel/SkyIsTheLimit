@@ -115,20 +115,22 @@ app.get('/home', function(req,res)
 	var level = req.session.level;
 	var user = req.session.user;
 	
+	var table;
+	
 	if (level == '0')
 	{
-		var table = JSON.parse('[{"organization":"YMCA", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
-		res.render('index_org', {table:table});
+		table = JSON.parse('[{"organization":"Emil and Sons charity for life", "id":4, "status":1}, {"organization":"YMCA", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
+		res.render('index_org', {table:table, user:user});
 	}
 	else if (level == '1')
 	{
-		var table = JSON.parse('[{"organization":"Friends of family", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
-		res.render('index_org', {table:table});
+		table = JSON.parse('[{"organization":"Emil and Sons charity for life", "id":4, "status":1}, {"organization":"YMCA", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
+		res.render('index_org', {table:table, user:user});
 	}
 	else if (level == '2')
 	{
-		var table = JSON.parse('[{"organization":"ibm", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
-		res.render('index_org', {table:table});
+		table = JSON.parse('[{"organization":"Emil and Sons charity for life", "id":4, "status":1}]');
+		res.render('index_org', {table:table, user:user});
 	}
 	
 });
