@@ -13,6 +13,8 @@
     "cookie-parser" : "*",
     "express-session" : "*",
     "body-parser" : "*",
-    "sendgrid": "1.1.1"
+    "sendgrid": "1.1.1",
+    "pkgcloud": "1.0.2",
+    "node-rest-client": "*"
   }
 }
