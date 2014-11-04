@@ -2,7 +2,7 @@
 <html>
 <head>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-	<title>Sky's The Limit - Giving tech to those in need!</title>
+	<title>$OrgName - Application</title>
 	<meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,64 +10,25 @@
 <body>
 	<div class="container theme-showcase" role="main">
 		<div class="jumbotron">
-			<h3><b>Business Contact Information</b></h3>
-			
-			<form id="neworg">
-				Name of organization:</br>
-				<input type="text" name="nameOfOrganization"></br>
-
-				Charitable Registration Number:</br>
-				<input type="text" name="CharitableRegistrationNumber"></br>
+			<form id="newapp" method="post" action="">
+				Specific requested amount:</br>
+				<input id="amount" type="text" name="amount" value="<%= info["amount"] %>"
+					<% if (info["status"] != 0) { %> disabled <% } %>
+				></br>
 				
-				Email:</br>
-				<input type="text" name="Email"></br>
-
-				Contact Name:</br>
-				<input type="text" name="ContactName"><br>
-
-				Address:</br>
-				<input type="text" name="Address"><br>
-
-				Phone Number:</br>
-				<input type="text" name="PhoneNumber"><br>
-
-				E-mail Address:</br>
-				<input type="text" name="E-mailAddress"><br>
-
-				Organization Website:</br>
-				<input type="text" name="ContactName"><br>
-
-				Password:</br>
-				<input type="password" name="Password"></br>
-
-				Verify your Password:</br>
-				<input type="password" name="VerifiedPassword"></br>
-
-				<h3><b>Organization Description:</b></h3>
-
-				Mission Statement:</br>
-				<textarea name="MissionStatement" form="neworg" cols="100" rows="5"></textarea></br>
-
-				History of Organization:</br>
-				<i>Provide a brief (200 words, maximum) history of your organization</i></br>
-				<textarea name="HistoryOfOrganization" form="neworg" cols="100" rows="5"></textarea></br>
-
-				Programs and Services:</br>
-				<i>Briefly describe your organization's main programs and services</i></br>
-				<textarea name="ProgramsAndServices" form="neworg" cols="100" rows="5"></textarea></br>
-
-				Target Populations:</br>
-				<i>i.e. people, neighbourhoods and communities served by the program</i></br>
-				<textarea name="TargetPopulation" form="neworg" cols="100" rows="5"></textarea></br>
+				What would happen if you did not receive the computers from STL?</br>
+				<textarea id="no_computers" name="no_computers" form="newapp" cols="100" rows="5" value="<% info["no_computers"] %>
+					<% if (info["status"] != 0) { %> disabled <% } %>
+				></textarea></br>
 				
-				Computer Program Description:</br>
-				<i>Briefly describe the computer mentoring/tutoring program, objectives, and outcomes, providing any relevant statistics.</i></br>
-				<textarea name="ProgramDescription" form="neworg" cols="100" rows="5"></textarea></br>
-
-				(Optional) Accolades and accomplishments:</br>
-				<i>Provide information on any awards and successes</i></br>
-				<textarea name="Accomplishments" form="neworg" cols="100" rows="5"></textarea></br>
-				<p><input type="submit" class="btn btn-sm btn-info" value="Submit"></p>
+				(Optional) Please provide any information that could strengthen your application that may not have been covered above.</br>
+				<textarea id="extra_info" name="extra_info" form="newapp" cols="100" rows="5" value="<% info["extra_info"] %>
+					<% if (info["status"] != 0) { %> disabled <% } %>
+				></textarea></br>
+				
+				<% if (info["status"] == 0) { %>
+				<p><button type="submit" class="btn btn-sm btn-info" name="Submit"></button></p>
+				<% } %>
 			</form>
 		</div>
 	</div>

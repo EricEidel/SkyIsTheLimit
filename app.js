@@ -409,6 +409,13 @@ app.get('/status', function(req, res)
 	res.render('index_org', {table:table});
 });
 
+app.get('/view_app', function(req, res)
+{
+	var info = JSON.parse('{"amount":"14", "no_computers":"badstuff", "extra_info":"", "status":1}');
+	
+	res.render('view_application', {info:info});
+});
+
 app.post('/post_add_feedback', function(req, res)
 {
 	
