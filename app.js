@@ -212,20 +212,42 @@ app.post('/activate', function(req, res)
 		var number = req.body.number;
 		var sql = "select * from sky.users where email='" + email +"' and verification=" + number ;
 		
-		var tables = database.send_query(ibmdb, dsnString, sql);
-		
-		res.write(sql);
-		res.write("<br/>" + tables);
-		
-		if (tables)
+		ibmdb.open(dsnString, function(err, conn) 
 		{
-			res.write("SUCCESS!");
-		}
-		else
-		{
-			res.write("FAIL!");
-		}
-		res.end();
+			 if (err) 
+			 {
+				return err;
+			 } 
+			 else 
+			 {		 	
+				conn.query(sql, function (err,tables) 
+				{
+					if (err) 
+					{
+						conn.close();
+						return ("SQL Error: " + err + "<br>\n");
+					} 
+					else
+					{
+						res.write(sql);
+						res.write("<br/>" + tables);
+						
+						if (tables)
+						{
+							res.write("SUCCESS!");
+						}
+						else
+						{
+							res.write("FAIL!");
+						}
+						res.end();
+						
+					 	conn.close();
+					}
+				 });
+			 }		
+	 	});
+		
 });
 
 app.get('/get_form_appl', function(req, res)
