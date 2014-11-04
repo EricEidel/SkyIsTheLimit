@@ -46,6 +46,7 @@
 <body>
 	<div class="container theme-showcase" role="main">
 		<div class="jumbotron">
+			<div style="max-width:860px;margin-left:auto;margin-right:auto">
 			<nav class="navbar navbar-default">
 				<div class="container">
 					<div class="navbar-header">
@@ -60,10 +61,74 @@
 				</div>
 			</nav>
 			<div id="review-app-tab" style="display:block">
-				<h1>Review!</h1>
+				<div class="page-header">
+				<h3>Review Applications</h3>
+				
+				<table class="table table-condensed">
+					<thead>
+		              	<tr><h3>
+		                	<th>Organization Name</th>
+		                	<th style="test-align:right">Status</th>
+		              	</h3></tr>
+		            </thead>
+		            <tbody>
+						<% for(var i=0; i<table.length; i++)  {%>
+					<tr>
+						<% var col = table[i]; %><br/><% var status = col["status"]; var organization = col["organization"]; var uniqueId = col["id"];%>
+							
+						<% if (status == 0){ %>
+							<td><h4><%=organization%></h4></td>
+							<form><input type="hidden" name="id" value="<%= uniqueId %>">
+							<td style="text-align:right"><button name="In Progress" type="submit" class="btn btn-lg btn-primary">In Progress</button></form></td>
+						<% } else if(status == 1) { %>
+							<td><h4><%=organization%></h4></td>
+							<form><input type="hidden" name="id" value="<%= uniqueId %>">
+							<td style="text-align:right"><button name="Open" type="submit" class="btn btn-lg btn-info">Open</button></form></td>
+						<% } else if(status == 2) { %>
+							<td><h4><%=organization%></h4></td>
+							<form><input type="hidden" name="id" value="<%= uniqueId %>">
+							<td style="text-align:right"><button name="Under Review" type="submit" class="btn btn-lg btn-info">Under Review</button></form></td>
+						<% } else if(status == 3) { %>
+							<td><h4><%=organization%></h4></td>
+							<form><input type="hidden" name="id" value="<%= uniqueId %>">
+							<td style="text-align:right"><button name="Accepted" type="submit" class="btn btn-lg btn-success">Accepted</button></form></td>		
+						<% } else if(status == 4) { %>
+							<td><h4><%=organization%></h4></td>
+							<form><input type="hidden" name="id" value="<%= uniqueId %>">
+							<td style="text-align:right"><button name="Declined" type="submit" class="btn btn-lg btn-danger">Declined</button></form></td>
+						<% } else if(status == 5) { %>
+							<td><h4><%=organization%></h4></td>
+							<form><input type="hidden" name="id" value="<%= uniqueId %>">
+							<td style="text-align:right"><button name="Declined with comments" type="submit" class="btn btn-lg btn-warning">Declined with comments</button></form></td>
+						<% } else if(status == 6) { %>
+							<td><h4><%=organization%></h4></td>
+							<form><input type="hidden" name="id" value="<%= uniqueId %>">
+							<td style="text-align:right"><button name="Closed" type="submit" class="btn btn-lg btn-success">Closed</button></form></td>				
+						<% }
+						%>
+					</tr>
+						<% } %>
+					
+		            </tbody>
+		    	</table>
+		    	</div>
 			</div>
 			<div id="edit-prof-tab" style="display:none">
-				<h1>Edit Prof!</h1>
+				<form class="page-header">
+					<h3>Edit Profile Info</h3>
+					Full Name:</br>
+					<input type="text" name="FullNameOfUser"></br>
+					Email:</br>
+					<input type="text" name="Email"></br>
+					Old Password:</br>
+					<input type="text" name="OldPassword"><br>
+					Password:</br>
+					<input type="text" name="Password"><br>
+					Verify your Password:</br>
+					<input type="text" name="VerifiedPassword"><br></br>
+					<p><button type="submit" class="btn btn-lg btn-info">Submit</button></p>
+				</form>
+			</div>
 			</div>
 		</div>
 	</div>
