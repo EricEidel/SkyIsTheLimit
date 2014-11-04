@@ -169,15 +169,14 @@ app.get('/form', is_logged_in, function(req, res)
 	res.render('form');
 });
 
-app.post('/post_form', is_logged_in, function(req, res)
+app.post('/post_form_appl', is_logged_in, function(req, res)
 {
-	var gid = req.body.gid;
-	var creator = req.body.creator;
-	var number_of_seats = req.body.number_of_seats;
-	var from = req.body.from;
-	var to = req.body.to;
-	var frequency = req.body.frequency;
-	var time = req.body.time;
+	var amount = req.body.amount;
+	var no_computers = req.body.no_computers;
+	var extra_info = req.body.extra_info;
+	var status = 0;
+	var worked_by = "NULL";
+	var time_submitted = "CURRENT TIMESTAMP";
 
 	ibmdb.open(dsnString, function(err, conn) 
 	{
@@ -188,8 +187,11 @@ app.post('/post_form', is_logged_in, function(req, res)
 		 } 
 		 else 
 		 {
-			var InsertStatement = "Insert into CARPOOL.CARPOOLS values (" + gid + ",'" + creator + "'," + number_of_seats + ",'" + from + "','" + to + "','" + frequency + "','" + time +  "')";
-		    
+		 	var InsertStatement = "insert into SKY.APPLICATIONS " +
+		 		"( user_id, amount, no_computers, extra_info, status, worked_by_id, time_submitted ) values ( " +
+		 		session.user_id + ",'" + amount + "','" + no_computers + "','" + extra_info + "'," + status + "," +
+		 		worked_by + "," + time_submitted + " )";
+		 	
 			conn.query(InsertStatement, function (err,tables,moreResultSets) 
 			{
 				if (err) 
