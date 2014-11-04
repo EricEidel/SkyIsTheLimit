@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<title>Sky's The Limit - Giving tech to those in need!</title>
+</head>
+<body>
+	<div class="container theme-showcase" role="main">
+		<div class="jumbotron">
+			<img src="images/skyslimit_logo.jpg" alt="Sky's The Limit Logo" style="margin-left:auto;margin-right:auto">
+			<nav class="navbar navbar-default">
+				<div class="container">
+					<div class="navbar-header">
+						<div class="navbar-brand">$Username</div>
+					</div>
+					<div class="navbar-collapse collapse">
+						<ul class="nav navbar-nav">
+							<li id="asd" class="active"><a href="#">Review Applications</a></li>
+							<li><a href="#about">About</a></li>
+							<li><a href="#contact">Contact</a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+			<div><h3>Review Applications</h3></div>
+			<div style="max-width:600px;margin-left:auto;margin-right:auto">
+			<table class="table table-condensed">
+			<thead>
+              <tr>
+                <th>Organization Name</th>
+                <th style="text-align:right">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+			<% for(var i=0; i<table.length; i++)  {%>
+		<tr>
+				<% var col = table[i]; %><br/><% var status = col["status"]; var organization = col["organization"]; var uniqueId = col["id"];%>
+				
+			<% if (status == 0){ %>
+				<td><h4><%=organization%></h4></td><td style="text-align:right"><button name="In Progress" type="submit" class="btn btn-lg btn-primary">In Progress</button></td>
+			<% } else if(status == 1) { %>
+				<td><h4><%=organization%></h4></td><td style="text-align:right"><button name="Open" type="submit" class="btn btn-lg btn-info">Open</button></td>
+			<% } else if(status == 2) { %>
+				<td><h4><%=organization%></h4></td><td style="text-align:right"><button name="Under Review" type="submit" class="btn btn-lg btn-info">Under Review</button></td>
+			<% } else if(status == 3) { %>
+				<td><h4><%=organization%></h4></td><td style="text-align:right"><button name="Accepted" type="submit" class="btn btn-lg btn-success">Accepted</button></td>		
+			<% } else if(status == 4) { %>
+				<td><h4><%=organization%></h4></td><td style="text-align:right"><button name="Declined" type="submit" class="btn btn-lg btn-danger">Declined</button></td>
+			<% } else if(status == 5) { %>
+				<td><h4><%=organization%></h4></td><td style="text-align:right"><button name="Declined with comments" type="submit" class="btn btn-lg btn-warning">Declined with comments</button></td>
+			<% } else if(status == 6) { %>
+				<td><h4><%=organization%></h4></td><td style="text-align:right"><button name="Closed" type="submit" class="btn btn-lg btn-success">Closed</button></td>				
+			<% }
+			%>
+		</tr>
+			<% } %>
+		
+            </tbody>
+    </table>
+    </div>
+		</div>
+	</div>
+</body>
+</html>

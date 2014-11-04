@@ -5,64 +5,65 @@
 </header>
 <body>
 	<div class="container theme-showcase" role="main">
-	<div class="jumbotron">
-	<h4>
-	<b>Business Contact Information</b>
-	</h4>
-	
-	<form action="/new_org" method="post" >
-	Contact Name:</br>
-	<input type="text" name="contact_name"></br>
-	
-	Email:</br>
-	<input type="text" name="email"></br>
-	
-	Password:</br>
-	<input type="text" name="password"><br>
-	
-	Verify your Password:</br>
-	<input type="text" name="VerifiedPassword"><br></br>
-	
-	Name of organization:</br>
-	<input type="text" name="organization_name"></br>
-	
-	Charitable Registration Number:</br>
-	<input type="text" name="charity_number"></br>
 
-	Address:</br>
-	<input type="text" name="address"><br>
-	
-	Phone Number:</br>
-	<input type="text" name="phone_number"><br>
-	
-	Organization Website:</br>
-	<input type="text" name="org_website"><br>
-	
-	<h4>
-	<b>Organization Description:</b>
-	</h4>
+		<div class="jumbotron">
+			<h3><b>Business Contact Information</b></h3>
+			
+			<form id="neworg" action="/new_org" method="post">
+				Name of organization:</br>
+				<input type="text" name="organization_name"></br>
 
-	Mission Statement:</br>
-	<input type="text" name="mission"><br>
-	
-	History of Organization:</br>
-	Provide a brief (200 words, maximum) history of your organization</br>
-	<input type="text" name="history"><br>
-	
-	Programs and Services:</br>
-	Briefly describe your organization's main programs and services</br>
-	<input type="text" name="program"><br>
-	
-	Target Populations:</br>
-	<input type="text" name="target_population"><br>
-	
-	(Optional) Accolades and accomplishments:</br>
-	<i>Provide information on any awards and successes</i></br>
-	<input type="text" name="accomplishments"><br>
-		<p>
-		    <button type="submit" class="btn btn-sm btn-info">Submit</button>
-		</p>
-	</form>
-</div></div>
+				Charitable Registration Number:</br>
+				<input type="text" name="charity_number"></br>
+				
+				Email:</br>
+				<input type="text" name="email"></br>
+
+				Contact Name:</br>
+				<input type="text" name="contact_name"><br>
+
+				Address:</br>
+				<input type="text" name="address"><br>
+
+				Phone Number:</br>
+				<input type="text" name="phone_number"><br>
+				
+				Organization Website:</br>
+				<input type="text" name="org_website"><br>
+
+				Password:</br>
+				<input type="password" name="password"></br>
+
+				Verify your Password:</br>
+				<input type="password" name="verify_password"></br>
+
+				<h3><b>Organization Description:</b></h3>
+
+				Mission Statement:</br>
+				<textarea name="mission" form="neworg" cols="100" rows="5"></textarea></br>
+
+				History of Organization:</br>
+				<i>Provide a brief (200 words, maximum) history of your organization</i></br>
+				<textarea name="history" form="neworg" cols="100" rows="5"></textarea></br>
+
+				Programs and Services:</br>
+				<i>Briefly describe your organization's main programs and services</i></br>
+				<textarea name="program" form="neworg" cols="100" rows="5"></textarea></br>
+
+				Target Populations:</br>
+				<i>i.e. people, neighbourhoods and communities served by the program</i></br>
+				<textarea name="target_population" form="neworg" cols="100" rows="5"></textarea></br>
+				
+				Computer Program Description:</br>
+				<i>Briefly describe the computer mentoring/tutoring program, objectives, and outcomes, providing any relevant statistics.</i></br>
+				<textarea name="program_desc" form="neworg" cols="100" rows="5"></textarea></br>
+
+				(Optional) Accolades and accomplishments:</br>
+				<i>Provide information on any awards and successes</i></br>
+				<textarea name="accomplishments" form="neworg" cols="100" rows="5"></textarea></br>
+				<p><input type="submit" class="btn btn-sm btn-info" value="Submit"></p>
+			</form>
+		</div>
+	</div>
 </body>
 </html>

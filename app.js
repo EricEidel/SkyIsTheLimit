@@ -171,6 +171,7 @@ app.post('/new_org', function(req, res)
 	var history = req.body.history;
 	var program = req.body.program;
 	var target_population = req.body.target_population;
+	var program_desc = req.body.program_desc;
 	var accomplishments = req.body.accomplishments;
 	
 	var low = 100000;
@@ -273,6 +274,14 @@ app.post('/post_upd_appl_review', function(req, res)
 	res.write("<br/>" + tables);
 	res.end();
 });
+
+app.get('/status', function(req, res)
+{
+	var table = JSON.parse('[{"organization":"ibm", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
+	
+	res.render('ViewAppTab', {table:table});
+});
+
 
 app.post('/post_add_feedback', function(req, res)
 {
