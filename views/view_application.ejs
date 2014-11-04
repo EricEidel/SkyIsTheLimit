@@ -12,7 +12,7 @@
 		<div class="jumbotron">
 			<h3><b>Business Contact Information</b></h3>
 			
-			<form>
+			<form id="neworg">
 				Name of organization:</br>
 				<input type="text" name="nameOfOrganization"></br>
 
@@ -45,29 +45,28 @@
 
 				<h3><b>Organization Description:</b></h3>
 
-				<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 				Mission Statement:</br>
-				<input type="text" name="MissionStatement"></br>
+				<textarea name="MissionStatement" form="neworg" cols="100" rows="5"></textarea></br>
 
 				History of Organization:</br>
 				<i>Provide a brief (200 words, maximum) history of your organization</i></br>
-				<input type="text" name="HistoryOfOrganization"></br>
+				<textarea name="HistoryOfOrganization" form="neworg" cols="100" rows="5"></textarea></br>
 
 				Programs and Services:</br>
 				<i>Briefly describe your organization's main programs and services</i></br>
-				<input type="text" name="ProgramsAndServices"></br>
+				<textarea name="ProgramsAndServices" form="neworg" cols="100" rows="5"></textarea></br>
 
 				Target Populations:</br>
 				<i>i.e. people, neighbourhoods and communities served by the program</i></br>
-				<input type="text" name="TargetPopulation"></br>
+				<textarea name="TargetPopulation" form="neworg" cols="100" rows="5"></textarea></br>
 				
 				Computer Program Description:</br>
 				<i>Briefly describe the computer mentoring/tutoring program, objectives, and outcomes, providing any relevant statistics.</i></br>
-				<input type="text" name="TargetPopulation"></br>
+				<textarea name="ProgramDescription" form="neworg" cols="100" rows="5"></textarea></br>
 
 				(Optional) Accolades and accomplishments:</br>
 				<i>Provide information on any awards and successes</i></br>
-				<input type="text" name="Accomplishments"></br>
+				<textarea name="Accomplishments" form="neworg" cols="100" rows="5"></textarea></br>
 				<p><input type="submit" class="btn btn-sm btn-info" value="Submit"></p>
 			</form>
 		</div>
