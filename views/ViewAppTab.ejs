@@ -23,18 +23,18 @@
 				</div>
 			</nav>
 			<div><h3>Review Applications</h3></div>
-				
+			<div style="max-width:600px;margin-left:auto;margin-right:auto">
 			<table class="table table-condensed">
 			<thead>
               <tr>
                 <th>Organization Name</th>
-                <th align="right">Status</th>
+                <th style="text-align:right">Status</th>
               </tr>
             </thead>
             <tbody>
 			<% for(var i=0; i<table.length; i++)  {%>
 		<tr>
-				<% var col = table[i]; %><br/><% var status = col["status"];%> <% var organization = col["organization"];%>
+				<% var col = table[i]; %><br/><% var status = col["status"]; var organization = col["organization"]; var uniqueId = col["id"];%>
 				
 			<% if (status == 0){ %>
 				<td><h4><%=organization%></h4></td><td style="text-align:right"><button name="In Progress" type="submit" class="btn btn-lg btn-primary">In Progress</button></td>
@@ -57,6 +57,7 @@
 		
             </tbody>
     </table>
+    </div>
 		</div>
 	</div>
 </body>
