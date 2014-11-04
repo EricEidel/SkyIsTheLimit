@@ -87,17 +87,13 @@ function is_logged_in(req, res, next)
 
 app.get('/', function(req,res)
 {
-	var is_user_logged_in = (req.session.user != null);
-	var username = "";
-	
-	if (req.session.user)
+	if (req.session.name)
 	{
-		username = req.session.user;
-		res.render('home', {user_logged_in: is_user_logged_in, username : username});
+		res.redirect('/home');
 	}
 	else
 	{
-		res.render('log_in', {user_logged_in: is_user_logged_in, username : username});
+		res.redirect('/log_in');
 	}
 });
 
@@ -112,6 +108,29 @@ app.get('/log_in', function(req,res)
 	{
 		res.redirect('/home');
 	}
+});
+
+app.get('/home', function(req,res)
+{
+	var level = req.session.level;
+	var user = req.session.user;
+	
+	if (level == '0')
+	{
+		var table = JSON.parse('[{"organization":"YMCA", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
+		res.render('index_org', {table:table});
+	}
+	else if (level == '1')
+	{
+		var table = JSON.parse('[{"organization":"Friends of family", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
+		res.render('index_org', {table:table});
+	}
+	else if (level == '2')
+	{
+		var table = JSON.parse('[{"organization":"ibm", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
+		res.render('index_org', {table:table});
+	}
+	
 });
 
 /*app.get('/test_objects', function(req, res)
@@ -193,44 +212,63 @@ app.post('/log_in', function(req,res)
 	var password = req.body.password;
 	
 	var sql = "select * from sky.users where email='" + username +"' and password='" + password +"'" ;
-		
+
+	var table = [];
+	
 	ibmdb.open(dsnString, function(err, conn) 
 	{
-		 if (err) 
-		 {
-			res.write(err);
-			res.end();
-		 } 
-		 else 
-		 {		 	
-			conn.query(sql, function (err,tables) 
-			{
-				if (err) 
-				{
-					res.write(err);
-					res.end();
-					conn.close();
-				} 
-				else
-				{
-					if (tables)
-					{
-						res.write("SUCCESS!");
-						res.end();
-					}
-					else
-					{
-						res.write("FAIL!");
-						res.end();
-					}
-					
-					res.end();
-				 	conn.close();
-				}
-			 });
-		 }		
- 	});
+		if (err) 
+		{
+		   res.write("error: ", err.message + "<br>\n");
+		   res.end();
+		} 
+		else   
+        {
+	        conn.query(sql, function (err,tables,moreResultSets) 
+	        {
+	           	if (err) 
+	           	{
+	              res.write("SQL Error: " + err + "<br>\n");
+	              conn.close();
+	           	} 
+	           	else 
+	           	{
+	           		if (table)
+	           		{
+		           		try
+		           		{
+		                  for (var i=0;i<tables.length;i++) 
+		                  {
+		                  	var row = [];
+		                  	row.push(tables[i].NAME);
+		                  	row.push(tables[i].EMAIL);
+		                  	row.push(tables[i].ACCESS_LEVEL);
+		                  	table.push(row);
+		                  }
+		                  
+  		                 req.session.name = (table[0][0]);
+     					 req.session.email =(table[0][1]);
+     					 req.session.level = (table[0][2]);     
+     					 
+     					 conn.close();
+     					 res.redirect('/');
+		                 }
+		                 catch (e)
+		                 {
+							res.write("Exception: " + e);
+					     }
+				      }
+				      else
+				      {
+				      	res.write("empty table.");
+				      }
+	             }
+ 	             
+	         });	     
+         }
+   	 });
 });
+
 
 app.get('/log_out', is_logged_in, function(req,res)
 {
