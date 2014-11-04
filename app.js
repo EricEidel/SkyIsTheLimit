@@ -301,7 +301,7 @@ app.get('/status', function(req, res)
 {
 	var table = JSON.parse('[{"organization":"ibm", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
 	
-	res.render('ViewAppTab', {table:table});
+	res.render('index_org', {table:table});
 });
 
 

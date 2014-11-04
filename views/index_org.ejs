@@ -46,6 +46,7 @@
 <body>
 	<div class="container theme-showcase" role="main">
 		<div class="jumbotron">
+			<div style="max-width:860px;margin-left:auto;margin-right:auto">
 			<nav class="navbar navbar-default">
 				<div class="container">
 					<div class="navbar-header">
@@ -62,13 +63,13 @@
 			</nav>
 			<div id="review-app-tab" style="display:block">
 				<h3>Review Applications</h3>
-				<div style="max-width:900px;margin-left:auto;margin-right:auto">
+				
 				<table class="table table-condensed">
 					<thead>
-		              	<tr>
+		              	<tr><h3>
 		                	<th>Organization Name</th>
-		                	<th align="right">Status</th>
-		              	</tr>
+		                	<th style="test-align:right">Status</th>
+		              	</h3></tr>
 		            </thead>
 		            <tbody>
 						<% for(var i=0; i<table.length; i++)  {%>
@@ -110,7 +111,6 @@
 					
 		            </tbody>
 		    	</table>
-		    	</div>
 			</div>
 			<div id="new-app-tab" style="display:none">
 				<form id="newapp" method="post" action="/post_form_appl">
@@ -128,8 +128,21 @@
 				</form>
 			</div>
 			<div id="edit-prof-tab" style="display:none">
-				<h3>Edit Profile Info</h3>
-				
+				<form class="page-header">
+					<h3>Edit Profile Info</h3>
+					Full Name:</br>
+					<input type="text" name="FullNameOfUser"></br>
+					Email:</br>
+					<input type="text" name="Email"></br>
+					Old Password:</br>
+					<input type="text" name="OldPassword"><br>
+					Password:</br>
+					<input type="text" name="Password"><br>
+					Verify your Password:</br>
+					<input type="text" name="VerifiedPassword"><br></br>
+					<p><button type="submit" class="btn btn-lg btn-info">Submit</button></p>
+				</form>
+			</div>
 			</div>
 		</div>
 	</div>
