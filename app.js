@@ -191,6 +191,13 @@ app.post('/post_upd_appl_review', function(req, res)
 	res.end();
 });
 
+app.get('/status', function(req, res)
+{
+	var table = JSON.parse('[{"organization":"ibm", "status":1}, {"organization":"ibm","status":2}, {"organization":"ibm", "status":2}]');
+	res.render('ViewAppTab', {table:table});
+});
+
+
 app.post('/post_add_feedback', function(req, res)
 {
 	
