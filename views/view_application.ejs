@@ -10,7 +10,7 @@
 <body>
 	<div class="container theme-showcase" role="main">
 		<div class="jumbotron">
-			<h5 style="text-align:right">Hello $Username</h5>
+			<h5 style="text-align:right">Hello <%=username%></h5>
 				<h5 style="text-align:right">
 					<form action="log_out" class="inline">
 						<button id="LogoutButton" type="submit" class="btn btn-lg btn-info">Logout</h5></button>
@@ -22,12 +22,12 @@
 				><br>
 				
 				What would happen if you did not receive the computers from STL?</br>
-				<textarea name="no_computers" form="newapp" cols="100" rows="5" value="<%= info["amount"] %>
+				<textarea name="no_computers" form="newapp" cols="100" rows="5" value="<%= info["amount"] %>"
 					<% if (info[status] != 0) { %> disable="true" <% }; %>
 				></textarea></br>
 				
 				(Optional) Please provide any information that could strengthen your application that may not have been covered above.</br>
-				<textarea name="extra_info" form="newapp" cols="100" rows="5" value="<%= info["amount"] %>
+				<textarea name="extra_info" form="newapp" cols="100" rows="5" value="<%= info["amount"] %>"
 					<% if (info[status] != 0) { %> disable="true" <% }; %>
 				></textarea></br>
 				
