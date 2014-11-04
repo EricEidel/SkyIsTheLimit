@@ -304,6 +304,13 @@ app.get('/status', function(req, res)
 	res.render('ViewAppTab', {table:table});
 });
 
+app.get('/myAppStatus', function(req, res)
+{
+	var table2 = JSON.parse('[{"Owner":"Alice", "id":4, "status":2}, {"Owner":"Alice", "id":5, "status":2}, {"Owner":"Alice", "id":6, "status":2}]');
+	
+	res.render('ViewAppTab', {table2:table2});
+});
+
 
 app.post('/post_add_feedback', function(req, res)
 {
