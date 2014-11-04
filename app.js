@@ -112,21 +112,11 @@ app.get('/log_in', function(req,res)
 	}
 });
 
-
-/*
-app.get('/send_email', function(req,res)
+app.get('/create_account', function(req,res)
 {
-	var from_address = "eidelber@ca.ibm.com";
-	var to_address = "eidelber@ca.ibm.com";
-	
-	var subject = "Hello!";
-	var text_body = "Hello.";
-	
-	// HTML BODY
-	var html_body = "<p>Note to myself.</p>";
-	emails.send_email(to_address, from_address, subject, text_body, html_body);	
+	var objects = require('./routes/objects');
+	objects.create_account();
 });
-*/
 
 app.post('/log_in', function(req,res)
 {
@@ -216,13 +206,13 @@ app.get('/get_form_appl', function(req, res)
 	res.render('request_application');
 });
 
-app.post('/post_form_appl', function(req, res)
+app.post('/post_new_appl', function(req, res)
 {
 	var amount = req.body.amount;
 	var no_computers = req.body.no_computers;
 	var extra_info = req.body.extra_info;
 	var status = 0;
-	var user_id = 1;
+	var user_id = 1; // TODO
 	var worked_by = "NULL";
 	var time_submitted = "CURRENT TIMESTAMP";
 	
@@ -230,12 +220,37 @@ app.post('/post_form_appl', function(req, res)
 		 		"( user_id, amount, no_computers, extra_info, status, worked_by_id, time_submitted ) values ( " +
 		 		user_id + ",'" + amount + "','" + no_computers + "','" + extra_info + "'," + status + "," +
 		 		worked_by + "," + time_submitted + " )";
-		 	
+	
  	res.write(InsertStatement);
-		 	
+ 	
 	var tables = database.send_query(ibmdb, dsnString, InsertStatement);
 	res.write("<br/>" + tables);
 	res.end();
+});
+
+app.post('/post_upd_appl_review', function(req, res)
+{
+	var under_review_by_id = req.body.under_review_by_id;
+	var app_id = 1; // TODO
+	var status = 1;
+	var user_id = 1;
+	
+	var UpdateStatement = "update SKY.APPLICATIONS app set " +
+				"status = " + status + "," +
+				"under_review_by_id = " + under_review_by_id +
+		 		" where app_id = " + app_id;
+	
+ 	res.write(UpdateStatement);
+	
+	var database = require('./routes/database');
+	var tables = database.send_query(ibmdb, dsnString, InsertStatement);
+	res.write("<br/>" + tables);
+	res.end();
+});
+
+app.post('/post_add_feedback', function(req, res)
+{
+	
 });
 
 /**
