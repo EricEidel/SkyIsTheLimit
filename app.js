@@ -465,7 +465,7 @@ app.get('/status', function(req, res)
 				"where user_id = " + user_id;
 			res.write("Query: " + SelectStatement);
 		    
-			conn.query(InsertStatement, function (err,data) 
+			conn.query(SelectStatement, function (err,data) 
 			{
 				if (err) 
 				{
@@ -475,41 +475,26 @@ app.get('/status', function(req, res)
 				} 
 				else
 				{
-					info += '[';
+					table += '[';
 	                for (var i=0;i<data.length;i++) 
 	                {
 	                	if (i > 0)
-	                		info += ',';
-	                  	info += '{"organization":"' + data[i].ORG_NAME + '", ' +
+	                		table += ',';
+	                  	table += '{"organization":"' + data[i].ORG_NAME + '", ' +
 	                  		'"id":' + data[i].APP_ID + ', ' +
 	                  		'"status":' + data[i].STATUS + '}';
 	                 }
-		             info += ']';
+		             table += ']';
 					
-	                  for (var i=0;i<data.length;i++) 
-	                  {
-	                  	var row = [];
-	                  	row.push(data[i].AMOUNT)
-	                  	row.push(data[i].NO_COMPUTERS);
-	                  	row.push(data[i].EXTRA_INFO);
-	                  	row.push(data[i].STATUS);
-	                  	row.push(data[i].TIME_SUBMITTED);
-	                  	
-	                  	table.push(row);
-	                  }
-		                  
-					 conn.close();
-					 res.render('show_table', {table: table});
+					var tablejson = JSON.parse(table);
+					res.render('index_org', {table:tablejson});
 				}
 			 });
 		 }		
  	});
-	
-	var tablejson = JSON.parse(table);
-	res.render('index_org', {table:tablejson});
 });
 
-app.post('/get_org_app', function(req,res)
+app.post('/view_app', function(req,res)
 {
 	var user_id = req.body.id;
 	
@@ -530,7 +515,7 @@ app.post('/get_org_app', function(req,res)
 				"  and SKY.APPLICATIONS.user_id = SKY.ORGANIZATION.user_id";
 			res.write("Query: " + SelectStatement);
 		    
-			conn.query(InsertStatement, function (err,data) 
+			conn.query(SelectStatement, function (err,data) 
 			{
 				if (err) 
 				{
@@ -553,23 +538,14 @@ app.post('/get_org_app', function(req,res)
 	                 }
 		             info += ']';
 					 conn.close();
-					 res.write(info);
-					 res.end();
-					 //res.render('show_table', {table: table});
+					 //res.write(info);
+					 //res.end();
+					 var infostr = JSON.parse(info);
+					 res.render('/view_application', {info: infostr});
 				}
 			 });
 		 }		
  	});
-});
-
-app.get('/view_app', function(req, res)
-{
-	var info = JSON.parse(req.body.info);
-	//var info = JSON.parse('{"organization":"ibm", "amount":"14", "no_computers":"badstuff", "extra_info":"", "status":1}');
-	
-	
-	
-	res.render('view_application', {info:info});
 });
 
 app.post('/post_add_feedback', function(req, res)

@@ -46,7 +46,7 @@
 <body>
 	<div class="container theme-showcase" role="main">
 		<div class="jumbotron">
-			<h5 style="text-align:right">Hello $Username</h5>
+			<h5 style="text-align:right">Hello <%=username%></h5>
 				<h5 style="text-align:right">
 					<form action="log_out" class="inline">
 						<button id="LogoutButton" type="submit" class="btn btn-lg btn-info">Logout</h5></button>
@@ -55,7 +55,7 @@
 			<nav class="navbar navbar-default">
 				<div class="container">
 					<div class="navbar-header">
-						<div class="navbar-brand">$Username</div>
+						<div class="navbar-brand"><%=username%></div>
 					</div>
 					<div class="navbar-collapse collapse">
 						<ul class="nav navbar-nav">
