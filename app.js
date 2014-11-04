@@ -250,7 +250,8 @@ app.post('/post_upd_appl_review', function(req, res)
 
 app.get('/status', function(req, res)
 {
-	var table = JSON.parse('[{"organization":"ibm", "status":1}, {"organization":"ibm","status":2}, {"organization":"ibm", "status":2}]');
+	var table = JSON.parse('[{"organization":"ibm", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
+	
 	res.render('ViewAppTab', {table:table});
 });
 
