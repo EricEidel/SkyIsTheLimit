@@ -15,64 +15,25 @@
 					<form action="log_out" class="inline">
 						<button id="LogoutButton" type="submit" class="btn btn-lg btn-info">Logout</h5></button>
 					</form>		
-			<h3><b>Business Contact Information</b></h3>
-			
-			<form id="neworg">
-				Name of organization:</br>
-				<input type="text" name="nameOfOrganization"></br>
-
-				Charitable Registration Number:</br>
-				<input type="text" name="CharitableRegistrationNumber"></br>
+			<form id="newapp" method="post" action="/post_form_appl">
+				Specific requested amount:</br>
+				<input type="text" name="amount" value="<%= info["amount"] %>" 
+					<% if (info[status] != 0) { %> disable="true" <% }; %>
+				><br>
 				
-				Email:</br>
-				<input type="text" name="Email"></br>
-
-				Contact Name:</br>
-				<input type="text" name="ContactName"><br>
-
-				Address:</br>
-				<input type="text" name="Address"><br>
-
-				Phone Number:</br>
-				<input type="text" name="PhoneNumber"><br>
-
-				E-mail Address:</br>
-				<input type="text" name="E-mailAddress"><br>
-
-				Organization Website:</br>
-				<input type="text" name="ContactName"><br>
-
-				Password:</br>
-				<input type="password" name="Password"></br>
-
-				Verify your Password:</br>
-				<input type="password" name="VerifiedPassword"></br>
-
-				<h3><b>Organization Description:</b></h3>
-
-				Mission Statement:</br>
-				<textarea name="MissionStatement" form="neworg" cols="100" rows="5"></textarea></br>
-
-				History of Organization:</br>
-				<i>Provide a brief (200 words, maximum) history of your organization</i></br>
-				<textarea name="HistoryOfOrganization" form="neworg" cols="100" rows="5"></textarea></br>
-
-				Programs and Services:</br>
-				<i>Briefly describe your organization's main programs and services</i></br>
-				<textarea name="ProgramsAndServices" form="neworg" cols="100" rows="5"></textarea></br>
-
-				Target Populations:</br>
-				<i>i.e. people, neighbourhoods and communities served by the program</i></br>
-				<textarea name="TargetPopulation" form="neworg" cols="100" rows="5"></textarea></br>
+				What would happen if you did not receive the computers from STL?</br>
+				<textarea name="no_computers" form="newapp" cols="100" rows="5" value="<%= info["amount"] %>
+					<% if (info[status] != 0) { %> disable="true" <% }; %>
+				></textarea></br>
 				
-				Computer Program Description:</br>
-				<i>Briefly describe the computer mentoring/tutoring program, objectives, and outcomes, providing any relevant statistics.</i></br>
-				<textarea name="ProgramDescription" form="neworg" cols="100" rows="5"></textarea></br>
-
-				(Optional) Accolades and accomplishments:</br>
-				<i>Provide information on any awards and successes</i></br>
-				<textarea name="Accomplishments" form="neworg" cols="100" rows="5"></textarea></br>
-				<p><input type="submit" class="btn btn-sm btn-info" value="Submit"></p>
+				(Optional) Please provide any information that could strengthen your application that may not have been covered above.</br>
+				<textarea name="extra_info" form="newapp" cols="100" rows="5" value="<%= info["amount"] %>
+					<% if (info[status] != 0) { %> disable="true" <% }; %>
+				></textarea></br>
+				
+				<% if (info[status] == 0) { %> 
+					<p><input type="submit" class="btn btn-sm btn-info" name="Submitjj"></input></p>
+				<% }; %>
 			</form>
 		</div>
 	</div>
