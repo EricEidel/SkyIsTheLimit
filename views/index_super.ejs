@@ -3,11 +3,49 @@
 <head>
 	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<title>Sky's The Limit - Giving tech to those in need!</title>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<script type="text/javascript">
+		var tabs = ["review-app","new-emp","edit-prof"];
+		
+		function newtab(id) 
+		{
+			console.log("Activating tab: " + id);
+			for (thing2 in tabs) 
+			{
+				var unactive_tab = tabs[thing2];
+				
+				var tab = document.getElementById(unactive_tab);
+				var tabContent = document.getElementById(unactive_tab + "-tab");
+				
+				if (unactive_tab == id) {
+					tab.className = "active";
+					tabContent.style = "display:block";
+				}
+				else {
+					tab.className = "";
+					tabContent.style = "display:none";
+				}
+			}
+			return false;
+		};
+		
+        // Wait for the page to load first
+        window.onload = function() 
+		{
+			for (thing in tabs) 
+			{
+				var active_tab = tabs[thing];
+				document.getElementById(active_tab).onclick = function() { newtab(this.getAttribute("id")); };
+			}
+        };
+    </script>
 </head>
 <body>
 	<div class="container theme-showcase" role="main">
 		<div class="jumbotron">
-			<img src="images/skyslimit_logo.jpg" alt="Sky's The Limit Logo" style="margin-left:auto;margin-right:auto">
 			<nav class="navbar navbar-default">
 				<div class="container">
 					<div class="navbar-header">
@@ -15,14 +53,22 @@
 					</div>
 					<div class="navbar-collapse collapse">
 						<ul class="nav navbar-nav">
-							<li id="asd" class="active"><a href="#">Review Applications</a></li>
-							<li><a href="#about">About</a></li>
-							<li><a href="#contact">Contact</a></li>
+							<li id="review-app" class="active"><a href="#">Review Applications</a></li>
+							<li id="new-emp"><a href="#">Create New Employee</a></li>
+							<li id="edit-prof"><a href="#">Edit Profile Info</a></li>
 						</ul>
 					</div>
 				</div>
 			</nav>
-			<div><h1>Welcome!</h1></div>
+			<div id="review-app-tab" style="display:block">
+				<h1>Review!</h1>
+			</div>
+			<div id="new-emp-tab" style="display:none">
+				<h1>Create EMp!</h1>
+			</div>
+			<div id="edit-prof-tab" style="display:none">
+				<h1>Edit Prof!</h1>
+			</div>
 		</div>
 	</div>
 
