@@ -63,7 +63,7 @@ app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 app.use(cookieParser()); // Needed for the session part to work
 app.use(express_session({secret: 'OMG_bigSecretL33tz0rs', resave: true,	saveUninitialized: true})); // Define a session framework with a "secret"
-app.use(express.static(path.join(__dirname, 'views'))); // Makes all the content in "public" accessible
+app.use(express.static(path.join(__dirname, 'public'))); // Makes all the content in "public" accessible
 app.use( bodyParser.json() );       // to support JSON-encoded bodies ( {"name":"foo","color":"red"} <- JSON encoding )
 app.use( bodyParser.urlencoded({ extended: true }) ); // to support URL-encoded bodies ( name=foo&color=red <- URL encoding )
 
@@ -88,9 +88,12 @@ app.get('/', function(req,res)
 	if (req.session.user)
 	{
 		username = req.session.user;
+		res.render('home', {user_logged_in: is_user_logged_in, username : username});
 	}
-	
-	res.render('index', {user_logged_in: is_user_logged_in, username : username});
+	else
+	{
+		res.render('log_in', {user_logged_in: is_user_logged_in, username : username});
+	}
 });
 
 app.get('/log_in', function(req,res)
