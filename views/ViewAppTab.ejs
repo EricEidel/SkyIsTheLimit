@@ -28,7 +28,7 @@
 			<thead>
               <tr>
                 <th>Organization Name</th>
-                <th>Status</th>
+                <th align="right">Status</th>
               </tr>
             </thead>
             <tbody>
@@ -37,19 +37,19 @@
 				<% var col = table[i]; %><br/><% var status = col["status"];%> <% var organization = col["organization"];%>
 				
 			<% if (status == 0){ %>
-				<td><h4><%=organization%></h4></td><td><button type="button" class="btn btn-lg btn-primary">In Progress</button></td>
+				<td><h4><%=organization%></h4></td><td align="right"><button type="button" class="btn btn-lg btn-primary">In Progress</button></td>
 			<% } else if(status == 1) { %>
-				<td><h4><%=organization%></h4></td><td><button type="button" class="btn btn-lg btn-info">Open</button></td>
+				<td><h4><%=organization%></h4></td><td align="right"><button type="button" class="btn btn-lg btn-info">Open</button></td>
 			<% } else if(status == 2) { %>
-				<td><h4><%=organization%></h4></td><td><button type="button" class="btn btn-lg btn-info">Under Review</button></td>
+				<td><h4><%=organization%></h4></td><td align="right"><button type="button" class="btn btn-lg btn-info">Under Review</button></td>
 			<% } else if(status == 3) { %>
-				<td><h4><%=organization%></h4></td><td><button type="button" class="btn btn-lg btn-success">Accepted</button></td>		
+				<td><h4><%=organization%></h4></td><td align="right"><button type="button" class="btn btn-lg btn-success">Accepted</button></td>		
 			<% } else if(status == 4) { %>
-				<td><h4><%=organization%></h4></td><td><button type="button" class="btn btn-lg btn-danger">Declined</button></td>
+				<td><h4><%=organization%></h4></td><td align="right"><button type="button" class="btn btn-lg btn-danger">Declined</button></td>
 			<% } else if(status == 5) { %>
-				<td><h4><%=organization%></h4></td><td><button type="button" class="btn btn-lg btn-warning">Declined with comments</button></td>
+				<td><h4><%=organization%></h4></td><td align="right"><button type="button" class="btn btn-lg btn-warning">Declined with comments</button></td>
 			<% } else if(status == 6) { %>
-				<td><h4><%=organization%></h4></td><td><button type="button" class="btn btn-lg btn-success">Closed</button></td>				
+				<td><h4><%=organization%></h4></td><td align="right"><button type="button" class="btn btn-lg btn-success">Closed</button></td>				
 			<% }
 			%>
 		</tr>
