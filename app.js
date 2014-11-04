@@ -14,6 +14,9 @@ var bodyParser = require('body-parser');
 var morgan  = require('morgan');    // For clearing logging messages
 var ibmdb = require('ibm_db');
 
+var database = require('./routes/database');
+var emails = require('./routes/emails');
+
 // This part finds the env and the key parameters from the VCAP_SERVICES. Looks like a lot, but very similar to what we did before.
 var serviceName = 'SQLDB';
 
@@ -105,11 +108,12 @@ app.get('/log_in', function(req,res)
 	}
 	else 
 	{
-		res.redirect('/');
+		res.redirect('/home');
 	}
 });
 
 
+/*
 app.get('/send_email', function(req,res)
 {
 	var from_address = "eidelber@ca.ibm.com";
@@ -120,14 +124,16 @@ app.get('/send_email', function(req,res)
 	
 	// HTML BODY
 	var html_body = "<p>Note to myself.</p>";
-	var emails = require('./routes/emails');
 	emails.send_email(to_address, from_address, subject, text_body, html_body);	
 });
+*/
 
 app.post('/log_in', function(req,res)
 {
-	req.session.user = req.body.username;
-	res.redirect('/');
+	var username = req.body.username;
+	var password = req.body.password;
+	
+	res.redirect('/home');
 });
 
 app.get('/log_out', is_logged_in, function(req,res)
@@ -136,11 +142,73 @@ app.get('/log_out', is_logged_in, function(req,res)
 	res.redirect('/');
 });
 
-// This is the database work section.
-
-app.get('/form', is_logged_in, function(req, res)
+app.post('/post_form_appl', function(req, res)
 {
-	res.render('form');
+	var contact_name = req.body.contact_name;
+	var email = req.body.email;
+	var password = req.body.password;
+	
+	var organization_name = req.body.organization_name;
+	var charity_number = req.body.charity_number;
+	var address = req.body.address;
+	var phone_number = req.body.phone_number;
+	
+	var org_website = req.body.org_website;
+	var mission = req.body.mission;
+	var history = req.body.history;
+	var program = req.body.program;
+	var target_population = req.body.target_population;
+	var accomplishments = req.body.accomplishments;
+	
+	var low = 1000000;
+	var high = 100000000000;
+	
+	var verification_num = Math.random() * (high - low) + low;
+	
+	var InsertStatement = "insert into SKY.USER " +
+	 		"( name, password, email, access_level, verification) values ('" +
+	 		contact_name + "','" + password + "','" + email + "'," + 2 + "," + verification_num + ")";
+	 		
+	res.write(InsertStatement);
+		 	
+	var tables = database.send_query(ibmdb, dsnString, InsertStatement);
+	res.write("<br/>" + tables);
+	
+	var from_address = "OMG-An-Awesome@email.com";
+	var to_address = email;
+	
+	var subject = "Please verify your account.";
+	var text_body = "Please verify your account at http://skyisthelimit.mybluemix.net/activate . Your code is: " + verification_num;
+	
+	// HTML BODY
+	var html_body = "<p>Please verify your account at <a href='http://skyisthelimit.mybluemix.net/activate'>this page</a>. Your activation code is <b>" + verification_num + "</b></p>";
+	emails.send_email(to_address, from_address, subject, text_body, html_body);
+	
+	res.end();
+});
+
+app.get('/activate', function(req, res)
+{
+	res.render('verify');
+});
+
+app.post('/activate', function(req, res)
+{
+		var email = req.body.email;
+		var number = req.body.number;
+		var sql = "SELECT * WHERE (email='"+ email +"' AND verification_num='" + number + "';" ;		
+		
+		var tables = database.send_query(ibmdb, dsnString, sql);
+		res.write("<br/>" + tables);
+		
+		if (tables)
+		{
+			res.write("SUCCESS!");
+		}
+		else
+		{
+			res.write("FAIL!");
+		}
 });
 
 app.get('/get_form_appl', function(req, res)
@@ -165,58 +233,10 @@ app.post('/post_form_appl', function(req, res)
 		 	
  	res.write(InsertStatement);
 		 	
-	var database = require('./routes/database');
 	var tables = database.send_query(ibmdb, dsnString, InsertStatement);
 	res.write("<br/>" + tables);
 	res.end();
 });
- 
-app.get('/show_table', is_logged_in, function(req, res)
-{
-	var table = [];
-
-	ibmdb.open(dsnString, function(err, conn) 
-	{
-		 if (err) 
-		 {
-			res.write("error: ", err.message + "<br>\n");
-			res.end();
-		 } 
-		 else 
-		 {
-			var InsertStatement = "SELECT * FROM CARPOOL.CARPOOLS";
-		    
-			conn.query(InsertStatement, function (err,data) 
-			{
-				if (err) 
-				{
-					  res.write("SQL Error: " + err + "<br>\n");
-					  conn.close();
-					  res.end();
-				} 
-				else
-				{
-	                  for (var i=0;i<data.length;i++) 
-	                  {
-	                  	var row = [];
-	                  	row.push(data[i].GID);
-	                  	row.push(data[i].CREATOR);
-	                  	row.push(data[i].NUMBER_OF_SEATS);
-	                  	row.push(data[i].FROM);
-	                  	row.push(data[i].TO);
-	                  	row.push(data[i].FREQUENCY);
-	                  	row.push(data[i].TIME);
-	                  	
-	                  	table.push(row);
-	                  }
-		                  
-					 conn.close();
-					 res.render('show_table', {table: table});
-				}
-			 });
-		 }		
- 	});
- });
 
 /**
  * This is where the server is created and run.  Everything previous to this
