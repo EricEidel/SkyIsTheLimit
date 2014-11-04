@@ -134,6 +134,29 @@ app.get('/log_out', is_logged_in, function(req,res)
 
 app.post('/post_form_appl', function(req, res)
 {
+	var amount = req.body.amount;
+	var no_computers = req.body.no_computers;
+	var extra_info = req.body.extra_info;
+	var status = 0;
+	var user_id = 1;
+	var worked_by = "NULL";
+	var time_submitted = "CURRENT TIMESTAMP";
+	
+	var InsertStatement = "insert into SKY.APPLICATIONS " +
+		 		"( user_id, amount, no_computers, extra_info, status, worked_by_id, time_submitted ) values ( " +
+		 		user_id + ",'" + amount + "','" + no_computers + "','" + extra_info + "'," + status + "," +
+		 		worked_by + "," + time_submitted + " )";
+		 	
+ 	res.write(InsertStatement);
+		 	
+	var database = require('./routes/database');
+	var tables = database.send_query(ibmdb, dsnString, InsertStatement);
+	res.write("<br/>" + tables);
+	res.end();
+});
+
+app.post('/new_org', function(req, res)
+{
 	var contact_name = req.body.contact_name;
 	var email = req.body.email;
 	var password = req.body.password;
@@ -150,12 +173,12 @@ app.post('/post_form_appl', function(req, res)
 	var target_population = req.body.target_population;
 	var accomplishments = req.body.accomplishments;
 	
-	var low = 1000000;
-	var high = 100000000000;
+	var low = 100000;
+	var high = 2000000000;
 	
-	var verification_num = Math.random() * (high - low) + low;
+	var verification_num = Math.floor(Math.random() * (high - low) + low);
 	
-	var InsertStatement = "insert into SKY.USER " +
+	var InsertStatement = "insert into SKY.USERS " +
 	 		"( name, password, email, access_level, verification) values ('" +
 	 		contact_name + "','" + password + "','" + email + "'," + 2 + "," + verification_num + ")";
 	 		
@@ -186,9 +209,11 @@ app.post('/activate', function(req, res)
 {
 		var email = req.body.email;
 		var number = req.body.number;
-		var sql = "SELECT * WHERE (email='"+ email +"' AND verification_num='" + number + "';" ;		
+		var sql = "select * from sky.users where email='" + email +"' and verification=" + number ;
 		
 		var tables = database.send_query(ibmdb, dsnString, sql);
+		
+		res.write(sql);
 		res.write("<br/>" + tables);
 		
 		if (tables)
@@ -199,6 +224,7 @@ app.post('/activate', function(req, res)
 		{
 			res.write("FAIL!");
 		}
+		res.end();
 });
 
 app.get('/get_form_appl', function(req, res)
