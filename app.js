@@ -172,7 +172,7 @@ app.get('/form', is_logged_in, function(req, res)
 	res.render('form');
 });
 
-app.post('/post_form_appl', is_logged_in, function(req, res)
+app.post('/post_new_appl', is_logged_in, function(req, res)
 {
 	var amount = req.body.amount;
 	var no_computers = req.body.no_computers;
