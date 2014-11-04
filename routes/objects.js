@@ -1,30 +1,13 @@
 exports.create_account = function create_account()
 {
-	var https = require('https');
-
-	var options = {
-		host:    'swift.ng.bluemix.net',
-		path:    'auth/59967a93-2bea-48ea-91c8-74742a5762f9/bb540832-1ce5-4047-a3f9-58dc8f908ed1/user',
-		headers: { 'Authorization': 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=' },
-		method:  'GET'
-	};
-	
-	var req = https.request(options, function(res) {
-		var str = '';
-	
-		//another chunk of data has been recieved, so append it to `str`
-		response.on('data', function (chunk) {
-			res.write(chunk);
-		});
-	
-		//the whole response has been recieved, so we just print it out here
-		response.on('end', function () {
-			res.write(str);
-		});
+	var client = require("pkgcloud").storage.createClient({
+		provider: 'openstack',
+		username: '7227afdaeb6e855d3a8c5a807e937146ab18cefe',
+		password: 'a67be8d32517fd9662cbcd1904d3383566ce4a6751476293b4897cc2008c',
+		authUrl:  'https://swift.ng.bluemix.net/auth/59967a93-2bea-48ea-91c8-74742a5762f9/bb540832-1ce5-4047-a3f9-58dc8f908ed1'
 	});
-	req.end();
 	
-	req.on('error', function(err) {
-		res.write("Error: " + err);
-	});
-}
+	client.getContainers(function(err, containers) {  })
+	
+	return "abd";
+};
