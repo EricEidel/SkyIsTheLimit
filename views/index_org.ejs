@@ -46,6 +46,12 @@
 <body>
 	<div class="container theme-showcase" role="main">
 		<div class="jumbotron">
+				<h5 style="text-align:right">Hello $Username</h5>
+				<h5 style="text-align:right">
+					<form action="log_out" class="inline">
+						<button id="LogoutButton" type="submit" class="btn btn-lg btn-info">Logout</h5></button>
+					</form>		
+			<div style="max-width:860px;margin-left:auto;margin-right:auto">
 			<nav class="navbar navbar-default">
 				<div class="container">
 					<div class="navbar-header">
@@ -61,13 +67,14 @@
 				</div>
 			</nav>
 			<div id="review-app-tab" style="display:block">
+				<div class="page-header">
 				<h3>Review Applications</h3>
-				<div style="max-width:900px;margin-left:auto;margin-right:auto">
+				
 				<table class="table table-condensed">
 					<thead>
 		              	<tr>
-		                	<th>Organization Name</th>
-		                	<th align="right">Status</th>
+		                	<th><h3>Organization Name</h3></th>
+		                	<th style="text-align:right"><h3>Status</h3></th>
 		              	</tr>
 		            </thead>
 		            <tbody>
@@ -128,8 +135,21 @@
 				</form>
 			</div>
 			<div id="edit-prof-tab" style="display:none">
-				<h3>Edit Profile Info</h3>
-				
+				<form class="page-header">
+					<h3>Edit Profile Info</h3>
+					Full Name:</br>
+					<input type="text" name="FullNameOfUser"></br>
+					Email:</br>
+					<input type="text" name="Email"></br>
+					Old Password:</br>
+					<input type="text" name="OldPassword"><br>
+					Password:</br>
+					<input type="text" name="Password"><br>
+					Verify your Password:</br>
+					<input type="text" name="VerifiedPassword"><br></br>
+					<p><button type="submit" class="btn btn-lg btn-info">Submit</button></p>
+				</form>
+			</div>
 			</div>
 		</div>
 	</div>
