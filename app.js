@@ -13,6 +13,8 @@ var express_session = require('express-session');
 var bodyParser = require('body-parser');
 var morgan  = require('morgan');    // For clearing logging messages
 var ibmdb = require('ibm_db');
+var rest = require('node-rest-client');
+var pkgcloud = require('pkgcloud');
 
 var database = require('./routes/database');
 var emails = require('./routes/emails');
@@ -112,10 +114,77 @@ app.get('/log_in', function(req,res)
 	}
 });
 
-app.get('/create_account', function(req,res)
+/*app.get('/test_objects', function(req, res)
 {
-	var objects = require('./routes/objects');
-	objects.create_account();
+	var provider = 'openstack';
+	var uid = '7227afdaeb6e855d3a8c5a807e937146ab18cefe';
+	var pw = 'a67be8d32517fd9662cbcd1904d3383566ce4a6751476293b4897cc2008c';
+	var url = 'https://swift.ng.bluemix.net/auth/59967a93-2bea-48ea-91c8-74742a5762f9/bb540832-1ce5-4047-a3f9-58dc8f908ed1';
+	res.write("begin\n");
+	
+	try
+	{
+		res.write("in try\n");
+		var client = pkgcloud.storage.createClient({
+			provider: provider,
+			username: uid,
+			password: pw,
+			authUrl:  url
+		});
+		res.write("mid\n");
+		client.getContainers(function(err, containers) {
+				res.write(containers.toString());
+				res.end();
+			});
+		/*client.createContainer({
+		 name: 'my-container',
+		 metadata: {
+		  brand: 'bmw',
+		  model: '335i',
+		  year: 2009
+		}}, function(err, container) {
+			res.write("Finished");
+			
+		});*//*
+	} catch(e) {
+		res.write("Exception: " + e);
+	}
+	res.write("Done\n");
+	//res.end();
+	
+	/*var objects = require('./routes/objects');
+	res.write(objects.create_account());
+	res.end();*//*
+});*/
+
+app.get('/test_address', function(req, res)
+{
+	var url = "https://pitneybowes.pbondemand.com/location/address/geocode.json";
+	var appId = "551bc49f-b014-4ade-ab04-81b4740ad10c";
+	//var secret = "ugO0aB9XE9lc4g8EHYL4";
+	
+	var Client = rest.Client;
+	client = new Client();
+	
+	try
+	{
+		client.get(url + "?address=66%20Sciberras%20Rd.&city=Markham&stateProvince=ON&country=Canada&fallbackToPostal=Y&fallbackToStreet=Y&fallbackToGeographic=Y&closeMatchesOnly=Y&appId=" + appId, function(data, res) {
+			res.write("httpCode: " + data.httpCode);
+			if (data.httpCode !== "500")
+			{
+				lat = data.Output.Geometry.Pos.Y;
+				lng = data.Output.Geometry.Pos.X;
+				
+				//res.redirect("/valid_address", {lat: lat, lng: lng});
+				res.write(", lat: " + lat + ", lng: " + lng);
+			}
+			res.end();
+		});
+	}
+	catch (e) {
+		res.write("Exception: " + e);
+	}
+	res.write("Finished\n");
 });
 
 app.post('/log_in', function(req,res)
@@ -123,7 +192,44 @@ app.post('/log_in', function(req,res)
 	var username = req.body.username;
 	var password = req.body.password;
 	
-	res.redirect('/home');
+	var sql = "select * from sky.users where email='" + username +"' and password='" + password +"'" ;
+		
+	ibmdb.open(dsnString, function(err, conn) 
+	{
+		 if (err) 
+		 {
+			res.write(err);
+			res.end();
+		 } 
+		 else 
+		 {		 	
+			conn.query(sql, function (err,tables) 
+			{
+				if (err) 
+				{
+					res.write(err);
+					res.end();
+					conn.close();
+				} 
+				else
+				{
+					if (tables)
+					{
+						res.write("SUCCESS!");
+						res.end();
+					}
+					else
+					{
+						res.write("FAIL!");
+						res.end();
+					}
+					
+					res.end();
+				 	conn.close();
+				}
+			 });
+		 }		
+ 	});
 });
 
 app.get('/log_out', is_logged_in, function(req,res)
@@ -216,7 +322,8 @@ app.post('/activate', function(req, res)
 		{
 			 if (err) 
 			 {
-				return err;
+				res.write(err);
+				res.end();
 			 } 
 			 else 
 			 {		 	
@@ -224,14 +331,12 @@ app.post('/activate', function(req, res)
 				{
 					if (err) 
 					{
+						res.write(err);
+						res.end();
 						conn.close();
-						return ("SQL Error: " + err + "<br>\n");
 					} 
 					else
 					{
-						res.write(sql);
-						res.write("<br/>" + tables);
-						
 						if (tables)
 						{
 							res.write("SUCCESS!");
@@ -240,8 +345,8 @@ app.post('/activate', function(req, res)
 						{
 							res.write("FAIL!");
 						}
-						res.end();
 						
+						res.end();
 					 	conn.close();
 					}
 				 });
@@ -301,7 +406,7 @@ app.get('/status', function(req, res)
 {
 	var table = JSON.parse('[{"organization":"ibm", "id":4, "status":1}, {"organization":"ibm", "id":5, "status":2}, {"organization":"ibm", "id":6, "status":2}]');
 	
-	res.render('ViewAppTab', {table:table});
+	res.render('index_org', {table:table});
 });
 
 app.get('/myAppStatus', function(req, res)
