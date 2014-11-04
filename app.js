@@ -123,7 +123,44 @@ app.post('/log_in', function(req,res)
 	var username = req.body.username;
 	var password = req.body.password;
 	
-	res.redirect('/home');
+	var sql = "select * from sky.users where email='" + username +"' and password='" + password +"'" ;
+		
+	ibmdb.open(dsnString, function(err, conn) 
+	{
+		 if (err) 
+		 {
+			res.write(err);
+			res.end();
+		 } 
+		 else 
+		 {		 	
+			conn.query(sql, function (err,tables) 
+			{
+				if (err) 
+				{
+					res.write(err);
+					res.end();
+					conn.close();
+				} 
+				else
+				{
+					if (tables)
+					{
+						res.write("SUCCESS!");
+						res.end();
+					}
+					else
+					{
+						res.write("FAIL!");
+						res.end();
+					}
+					
+					res.end();
+				 	conn.close();
+				}
+			 });
+		 }		
+ 	});
 });
 
 app.get('/log_out', is_logged_in, function(req,res)
@@ -216,7 +253,8 @@ app.post('/activate', function(req, res)
 		{
 			 if (err) 
 			 {
-				return err;
+				res.write(err);
+				res.end();
 			 } 
 			 else 
 			 {		 	
@@ -224,14 +262,12 @@ app.post('/activate', function(req, res)
 				{
 					if (err) 
 					{
+						res.write(err);
+						res.end();
 						conn.close();
-						return ("SQL Error: " + err + "<br>\n");
 					} 
 					else
 					{
-						res.write(sql);
-						res.write("<br/>" + tables);
-						
 						if (tables)
 						{
 							res.write("SUCCESS!");
@@ -240,8 +276,8 @@ app.post('/activate', function(req, res)
 						{
 							res.write("FAIL!");
 						}
-						res.end();
 						
+						res.end();
 					 	conn.close();
 					}
 				 });
