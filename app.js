@@ -109,6 +109,11 @@ app.get('/log_in', function(req,res)
 	}
 });
 
+app.get('/create_account', function(req,res)
+{
+	var objects = require('./routes/objects');
+	objects.create_account();
+});
 
 app.get('/send_email', function(req,res)
 {
